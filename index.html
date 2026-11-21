@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAMFMA Scoring System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* MAIN CONTAINER */
+.container {
+    width: 100%;
+    max-width: 950px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.18);
+    text-align: center;
+}
+
+/* LOGO */
+.logo {
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 140px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+/* HEADER */
+.header {
+    background: #111;
+    color: white;
+    padding: 30px 15px;
+    border-radius: 12px;
+    margin-bottom: 35px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin: 10px 0 0;
+    color: #ccc;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+/* MENU TITLE */
+.menu-title {
+    font-size: 23px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* SCOREBOARD OPTIONS */
+.scoreboard-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.option {
+    border: none;
+    border-radius: 12px;
+    padding: 40px 15px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    min-height: 190px;
+}
+
+.anyo {
+    background: #990000;
+}
+
+.padded {
+    background: #126b36;
+}
+
+.option:hover {
+    transform: translateY(-5px);
+    opacity: 0.9;
+}
+
+.option h2 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.option p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.option .icon {
+    font-size: 42px;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 35px;
+    color: #777;
+    font-size: 13px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .container {
+        padding: 22px 15px;
+        border-radius: 14px;
+    }
+
+    .header {
+        padding: 25px 10px;
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .scoreboard-options {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .option {
+        min-height: 150px;
+        padding: 25px 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="Mafma Logo.png" alt="MAMFMA Logo">
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>MAMFMA</h1>
+        <p>OFFICIAL SCORING SYSTEM</p>
+    </div>
+
+    <!-- MAIN MENU -->
+    <div class="menu-title">
+        SELECT SCOREBOARD
+    </div>
+
+    <div class="scoreboard-options">
+
+        <!-- ANYO -->
+        <button class="option anyo"
+        onclick="window.location.href='Arnis Anyo.html'">
+
+            <div class="icon">🥋</div>
+            <h2>ANYO</h2>
+            <p>ANYO SCOREBOARD</p>
+
+        </button>
+
+        <!-- PADDED STICK -->
+        <button class="option padded"
+        onclick="window.location.href='Padded Stick.html'">
+
+            <div class="icon">⚔️</div>
+            <h2>PADDED STICK</h2>
+            <p>PADDED STICK SCOREBOARD</p>
+
+        </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        MAMFMA OFFICIAL SCORING SYSTEM
+    </div>
+
+</div>
+
+</body>
+</html>
