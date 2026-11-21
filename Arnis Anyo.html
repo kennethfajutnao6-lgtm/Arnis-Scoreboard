@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arnis Anyo Individual Scoreboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #eeeeee;
+    color: #222;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+/* HEADER */
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    min-height: 65px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    background: #222;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #444;
+}
+
+.logo-image {
+    max-width: 125px;
+    max-height: 60px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.logo-fallback {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* TITLE */
+.header {
+    background: #111;
+    color: white;
+    padding: 22px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #ccc;
+}
+
+/* TABLE */
+.table-container {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    background: #222;
+    color: white;
+    padding: 16px 10px;
+    font-size: 16px;
+}
+
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+th:first-child {
+    background: #990000;
+    min-width: 190px;
+}
+
+th:nth-last-child(2) {
+    background: #126b36;
+    min-width: 140px;
+}
+
+.player-name {
+    width: 100%;
+    min-width: 150px;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.score-input {
+    width: 85px;
+    padding: 12px 5px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.score-input:focus,
+.player-name:focus {
+    outline: none;
+    border-color: #005bea;
+}
+
+/* REMOVE NUMBER ARROWS */
+.score-input::-webkit-inner-spin-button,
+.score-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.final-score {
+    font-size: 23px;
+    font-weight: bold;
+    color: #126b36;
+}
+
+/* BUTTONS */
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn {
+    background: #005bea;
+    color: white;
+}
+
+.reset-btn {
+    background: #222;
+    color: white;
+}
+
+.delete-btn {
+    background: #dc0000;
+    color: white;
+    padding: 8px 12px;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.footer {
+    margin-top: 15px;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+}
+
+/* MOBILE */
+@media screen and (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .table-container {
+        padding: 8px;
+    }
+
+    .logo-image {
+        max-width: 100px;
+        max-height: 48px;
+    }
+
+    .back-btn {
+        padding: 10px 13px;
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TOP HEADER -->
+    <div class="top-header">
+
+        <button class="back-btn"
+        onclick="window.location.href='Arnis ScoreBoard.html'">
+            ← BACK
+        </button>
+
+        <img
+            class="logo-image"
+            src="Mafma Logo.png"
+            alt="MAMFMA Logo"
+            draggable="false"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+        >
+
+        <div class="logo-fallback" style="display:none;">
+            MAMFMA
+        </div>
+
+    </div>
+
+    <!-- TITLE -->
+    <div class="header">
+        <h1>ARNIS ANYO INDIVIDUAL</h1>
+        <p>OFFICIAL SCORING BOARD</p>
+    </div>
+
+    <!-- SCORE TABLE -->
+    <div class="table-container">
+
+        <table id="scoreTable">
+
+            <thead>
+                <tr>
+                    <th>PLAYER NAME</th>
+                    <th>JUDGE 1</th>
+                    <th>JUDGE 2</th>
+                    <th>JUDGE 3</th>
+                    <th>JUDGE 4</th>
+                    <th>JUDGE 5</th>
+                    <th>FINAL SCORE</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+
+            <tbody id="playerTable"></tbody>
+
+        </table>
+
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="buttons">
+
+        <button class="add-btn" onclick="addPlayer()">
+            + ADD PLAYER
+        </button>
+
+        <button class="reset-btn" onclick="resetScores()">
+            RESET SCORES
+        </button>
+
+    </div>
+
+    <div class="footer">
+        Highest and Lowest scores are automatically excluded.
+        The remaining three scores are added for the Final Score.
+    </div>
+
+</div>
+
+<script>
+
+// ADD PLAYER
+function addPlayer() {
+
+    const table = document.getElementById("playerTable");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>
+            <input
+                type="text"
+                class="player-name"
+                placeholder="PLAYER NAME"
+            >
+        </td>
+
+        <td><input type="text" inputmode="decimal" class="score-input" placeholder="Score" oninput="calculateScore(this)"></td>
+        <td><input type="text" inputmode="decimal" class="score-input" placeholder="Score" oninput="calculateScore(this)"></td>
+        <td><input type="text" inputmode="decimal" class="score-input" placeholder="Score" oninput="calculateScore(this)"></td>
+        <td><input type="text" inputmode="decimal" class="score-input" placeholder="Score" oninput="calculateScore(this)"></td>
+        <td><input type="text" inputmode="decimal" class="score-input" placeholder="Score" oninput="calculateScore(this)"></td>
+
+        <td class="final-score">-</td>
+
+        <td>
+            <button class="delete-btn" onclick="deletePlayer(this)">
+                DELETE
+            </button>
+        </td>
+    `;
+
+    table.appendChild(row);
+}
+
+
+// AUTOMATIC SCORE COMPUTATION
+function calculateScore(input) {
+
+    const row = input.closest("tr");
+    const inputs = row.querySelectorAll(".score-input");
+    const finalScore = row.querySelector(".final-score");
+
+    let scores = [];
+
+    // CHECK ALL FIVE SCORES
+    for (let field of inputs) {
+
+        if (field.value.trim() === "") {
+            finalScore.textContent = "-";
+            return;
+        }
+
+        let value = Number(field.value);
+
+        if (!Number.isFinite(value)) {
+            finalScore.textContent = "-";
+            return;
+        }
+
+        scores.push(value);
+    }
+
+    // SORT LOWEST TO HIGHEST
+    scores.sort((a, b) => a - b);
+
+    // REMOVE LOWEST AND HIGHEST
+    scores.shift();
+    scores.pop();
+
+    // ADD REMAINING THREE SCORES
+    let total = scores.reduce((sum, score) => sum + score, 0);
+
+    // DISPLAY FINAL SCORE
+    finalScore.textContent = Number(total.toFixed(2)).toString();
+}
+
+
+// DELETE PLAYER
+function deletePlayer(button) {
+    button.closest("tr").remove();
+}
+
+
+// RESET SCORES
+function resetScores() {
+
+    const rows = document.querySelectorAll("#playerTable tr");
+
+    rows.forEach(row => {
+
+        row.querySelector(".player-name").value = "";
+
+        const inputs = row.querySelectorAll(".score-input");
+
+        inputs.forEach(input => {
+            input.value = "";
+        });
+
+        row.querySelector(".final-score").textContent = "-";
+
+    });
+}
+
+
+// INITIAL ONE PLAYER
+addPlayer();
+
+</script>
+
+</body>
+</html>

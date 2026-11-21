@@ -1,0 +1,694 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arnis Scoreboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 15px;
+    background: #eeeeee;
+    font-family: Arial, sans-serif;
+    user-select: none;
+}
+
+/* ROTATE PHONE MESSAGE */
+.rotate-message {
+    display: none;
+}
+
+@media screen and (max-width: 650px) and (orientation: portrait) {
+    body {
+        padding: 0;
+    }
+
+    .scoreboard {
+        display: none !important;
+    }
+
+    .rotate-message {
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 25px;
+        background: #eeeeee;
+    }
+
+    .rotate-icon {
+        font-size: 75px;
+        margin-bottom: 15px;
+        animation: rotatePhone 2s infinite;
+    }
+
+    .rotate-message h2 {
+        font-size: 25px;
+        margin: 10px 0;
+        color: #111;
+    }
+
+    .rotate-message p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    @keyframes rotatePhone {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+/* SCOREBOARD LAYOUT */
+.scoreboard {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr);
+    grid-template-areas:
+        "header header header"
+        "red middle blue"
+        "timer timer timer";
+    gap: 12px;
+}
+
+/* SCOREBOARD HEADER */
+.score-header {
+    grid-area: header;
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 10px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #444;
+}
+
+/* MAMFMA LOGO */
+.logo-image {
+    display: block;
+    max-width: 125px;
+    max-height: 52px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.logo-fallback {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #222;
+}
+
+/* MAIN SCORE PANELS */
+.player {
+    min-height: 520px;
+    border-radius: 13px;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.red {
+    grid-area: red;
+    background: #e00000;
+    border: 4px solid #990000;
+}
+
+.blue {
+    grid-area: blue;
+    background: #005bea;
+    border: 4px solid #003b99;
+}
+
+.score {
+    font-size: clamp(130px, 17vw, 230px);
+    font-weight: bold;
+    color: white;
+    line-height: 1;
+}
+
+.player:active {
+    filter: brightness(0.85);
+}
+
+/* ADVANTAGE */
+.advantage-mark {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #111;
+    font-weight: bold;
+    font-size: 19px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    visibility: hidden;
+    white-space: nowrap;
+}
+
+.advantage-mark.active {
+    visibility: visible;
+}
+
+/* MIDDLE ROUND WIN BOXES */
+.middle {
+    grid-area: middle;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.round-wins {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.round-win {
+    flex: 1;
+    min-height: 125px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.red-win {
+    border: 4px solid #dc0000;
+    color: #dc0000;
+}
+
+.blue-win {
+    border: 4px solid #005bea;
+    color: #005bea;
+}
+
+.round-win:active {
+    transform: scale(0.95);
+    background: #eeeeee;
+}
+
+/* TIMER */
+.bottom {
+    grid-area: timer;
+    background: white;
+    border: 3px solid #222;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.bottom h3 {
+    margin: 8px;
+    font-size: 20px;
+}
+
+.timer {
+    font-size: 65px;
+    font-weight: bold;
+    margin: 12px;
+}
+
+.timer.finished {
+    color: #dc0000;
+    animation: blink 0.8s infinite;
+}
+
+.time-message {
+    color: #dc0000;
+    font-size: 23px;
+    font-weight: bold;
+    min-height: 28px;
+    margin: 5px;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* BUTTONS */
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    margin: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.start {
+    background: #16a34a;
+    color: white;
+}
+
+.pause {
+    background: #d97706;
+    color: white;
+}
+
+.reset {
+    background: #222;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* MOBILE LANDSCAPE */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    body {
+        padding: 6px;
+    }
+
+    .scoreboard {
+        grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
+        gap: 6px;
+    }
+
+    .score-header {
+        min-height: 38px;
+        padding: 0 5px;
+    }
+
+    .back-btn {
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .logo-image {
+        max-width: 95px;
+        max-height: 34px;
+    }
+
+    .logo-fallback {
+        font-size: 17px;
+    }
+
+    .player {
+        min-height: 65vh;
+        padding: 5px;
+    }
+
+    .score {
+        font-size: clamp(85px, 14vw, 150px);
+    }
+
+    .advantage-mark {
+        bottom: 10px;
+        font-size: 12px;
+        padding: 7px 8px;
+    }
+
+    .round-wins {
+        gap: 5px;
+    }
+
+    .round-win {
+        min-height: 75px;
+        font-size: 30px;
+        border-width: 3px;
+    }
+
+    .bottom {
+        padding: 8px;
+    }
+
+    .bottom h3 {
+        font-size: 15px;
+        margin: 3px;
+    }
+
+    .timer {
+        font-size: 38px;
+        margin: 5px;
+    }
+
+    .time-message {
+        font-size: 15px;
+        min-height: 18px;
+        margin: 2px;
+    }
+
+    button {
+        padding: 8px 14px;
+        font-size: 12px;
+        margin: 2px;
+    }
+}
+
+/* SMALL MOBILE PORTRAIT */
+@media screen and (max-width: 650px) and (orientation: portrait) {
+    .scoreboard {
+        display: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ROTATE MESSAGE -->
+<div class="rotate-message">
+    <div class="rotate-icon">📱</div>
+
+    <h2>PLEASE ROTATE YOUR PHONE</h2>
+
+    <p>
+        Turn your phone sideways to use the
+        Arnis Scoreboard.
+    </p>
+
+    <h1>↻</h1>
+</div>
+
+<!-- MAIN SCOREBOARD -->
+<div class="scoreboard">
+
+    <!-- HEADER -->
+    <div class="score-header">
+
+        <!-- BACK BUTTON -->
+        <button class="back-btn"
+        onclick="window.location.href='Arnis ScoreBoard.html'">
+            ← BACK
+        </button>
+
+        <!-- MAMFMA LOGO -->
+        <img class="logo-image"
+             src="Mafma Logo.png"
+             alt="MAMFMA Logo"
+             draggable="false"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+        <div class="logo-fallback" style="display:none;">
+            MAMFMA
+        </div>
+
+    </div>
+
+    <!-- RED SCORE -->
+    <div class="red player" onclick="addPoint('red')">
+
+        <div class="score" id="redScore">0</div>
+
+        <div class="advantage-mark" id="redAdvantage">
+            ADVANTAGE
+        </div>
+
+    </div>
+
+    <!-- ROUND WIN BOXES -->
+    <div class="middle">
+
+        <div class="round-wins">
+
+            <div class="round-win red-win"
+                 id="redWins"
+                 onclick="awardRound('red')">
+                0
+            </div>
+
+            <div class="round-win blue-win"
+                 id="blueWins"
+                 onclick="awardRound('blue')">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BLUE SCORE -->
+    <div class="blue player" onclick="addPoint('blue')">
+
+        <div class="score" id="blueScore">0</div>
+
+        <div class="advantage-mark" id="blueAdvantage">
+            ADVANTAGE
+        </div>
+
+    </div>
+
+    <!-- TIMER -->
+    <div class="bottom">
+
+        <h3>MATCH TIMER</h3>
+
+        <div class="timer" id="timer">01:00</div>
+
+        <div class="time-message" id="timeMessage"></div>
+
+        <button class="start" onclick="startTimer()">
+            START
+        </button>
+
+        <button class="pause" onclick="pauseTimer()">
+            PAUSE
+        </button>
+
+        <button class="reset" onclick="resetAll()">
+            RESET ALL
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+// SCORES
+let redScore = 0;
+let blueScore = 0;
+
+// ROUND WINS
+let redWins = 0;
+let blueWins = 0;
+
+// ADVANTAGE
+let firstScorer = null;
+
+// TIMER
+let seconds = 60;
+let interval = null;
+let timerFinished = false;
+
+
+// UPDATE ADVANTAGE
+function updateAdvantage() {
+
+    const redAdvantage =
+        document.getElementById("redAdvantage");
+
+    const blueAdvantage =
+        document.getElementById("blueAdvantage");
+
+    redAdvantage.classList.remove("active");
+    blueAdvantage.classList.remove("active");
+
+    if (redScore === blueScore && firstScorer !== null) {
+
+        if (firstScorer === "red") {
+            redAdvantage.classList.add("active");
+        } else {
+            blueAdvantage.classList.add("active");
+        }
+    }
+}
+
+
+// ADD POINT
+function addPoint(player) {
+
+    if (firstScorer === null) {
+        firstScorer = player;
+    }
+
+    if (player === "red") {
+
+        redScore++;
+
+        document.getElementById("redScore").textContent =
+            redScore;
+
+    } else {
+
+        blueScore++;
+
+        document.getElementById("blueScore").textContent =
+            blueScore;
+    }
+
+    updateAdvantage();
+}
+
+
+// ROUND WIN
+function awardRound(player) {
+
+    if (player === "red") {
+
+        redWins++;
+
+        document.getElementById("redWins").textContent =
+            redWins;
+
+    } else {
+
+        blueWins++;
+
+        document.getElementById("blueWins").textContent =
+            blueWins;
+    }
+}
+
+
+// TIMER DISPLAY
+function updateTimer() {
+
+    let min = Math.floor(seconds / 60);
+    let sec = seconds % 60;
+
+    document.getElementById("timer").textContent =
+        String(min).padStart(2, "0") + ":" +
+        String(sec).padStart(2, "0");
+}
+
+
+// FINISH TIMER
+function finishTimer() {
+
+    pauseTimer();
+
+    seconds = 0;
+
+    updateTimer();
+
+    timerFinished = true;
+
+    document.getElementById("timer")
+        .classList.add("finished");
+
+    document.getElementById("timeMessage")
+        .textContent = "TIME IS UP!";
+
+    alert("TIME IS UP!");
+}
+
+
+// START TIMER
+function startTimer() {
+
+    if (interval !== null ||
+        timerFinished ||
+        seconds <= 0) return;
+
+    interval = setInterval(function() {
+
+        seconds--;
+
+        updateTimer();
+
+        if (seconds <= 0) {
+            finishTimer();
+        }
+
+    }, 1000);
+}
+
+
+// PAUSE TIMER
+function pauseTimer() {
+
+    clearInterval(interval);
+
+    interval = null;
+}
+
+
+// RESET ALL
+function resetAll() {
+
+    pauseTimer();
+
+    redScore = 0;
+    blueScore = 0;
+
+    redWins = 0;
+    blueWins = 0;
+
+    firstScorer = null;
+
+    seconds = 60;
+    timerFinished = false;
+
+    document.getElementById("redScore").textContent = 0;
+    document.getElementById("blueScore").textContent = 0;
+
+    document.getElementById("redWins").textContent = 0;
+    document.getElementById("blueWins").textContent = 0;
+
+    document.getElementById("timeMessage").textContent = "";
+
+    document.getElementById("timer")
+        .classList.remove("finished");
+
+    updateAdvantage();
+    updateTimer();
+}
+
+</script>
+
+</body>
+</html>
